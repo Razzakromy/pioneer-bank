@@ -30,19 +30,19 @@
                <div class="col-md-4">
                    <div class="deposite status">
                        <h5>Deposite</h5>
-                       <h2>$ 00</h2>
+                       <h2>$<span id="currentDeposit">00</span></h2>
                    </div>
                </div>
                <div class="col-md-4">
                    <div class="withdraw status">
                        <h5>Withdraw</h5>
-                       <h2>$ 00</h2>
+                       <h2>$ <span id="currentWithdraw">00</span> </h2>
                    </div>
                </div>
                <div class="col-md-4">
                    <div class="balance status">
                        <h5>Balance</h5>
-                       <h2>$ 1240</h2>
+                       <h2>$ <span id="currentBalance">1240</span></h2>
                    </div>
                </div>
            </div>
@@ -53,17 +53,17 @@
                <div class="col-md-6">
                   <div class="input-deposite input-area">
                        <h4>Deposit</h4>
-                       <input type="text" class="form-control" placeholder="$ amount you want to deposite">
+                       <input id="depositAmount" type="text" class="form-control" placeholder="$ amount you want to deposite">
                        <br>
-                       <button class="btn btn-success">Deposite</button>
+                       <button id="addDeposit" class="btn btn-success">Deposite</button>
                   </div>
                </div>
                <div class="col-md-6">
                    <div class="input-withdraw input-area">
                        <h4>Withdraw</h4>
-                       <input type="text" class="form-control" placeholder="$ amount you want to withdraw">
+                       <input id="withdrawAmount" type="text" class="form-control" placeholder="$ amount you want to withdraw">
                        <br>
-                       <button class="btn btn-success">Withdraw</button>
+                       <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                    </div>
                </div>
            </div>
@@ -71,13 +71,55 @@
    </div>
 
 <script>
+    // login Button Event handler
    const loginBtn = document.getElementById("login");
    loginBtn.addEventListener("click",function(){
        const loginArea = document.getElementById("login-area");
        loginArea.style.display="none";
        const transactionArea = document.getElementById("transaction-area");
        transactionArea.style.display="block";
-   })
+   });
+
+   // addDeposit Button Handler
+
+   const depositBtn = document.getElementById("addDeposit");
+    depositBtn.addEventListener("click",function(){
+       const depositNumber = getInputAmount("depositAmount");
+
+       updateSpanText("currentDeposit", depositNumber);
+       updateSpanText("currentBalance", depositNumber);
+       
+       
+       document.getElementById("depositAmount").value = "";
+       
+   });
+
+   function updateSpanText(id, addedNumber) {
+       const current  = document.getElementById(id).innerText;
+       const currentNumber = parseFloat(current);
+       const total  = currentNumber + addedNumber;
+       document.getElementById(id).innerText = total ;
+   }
+
+   // addWithdraw Button Handler
+
+    const withdrawBtn = document.getElementById("addWithdraw");
+    withdrawBtn.addEventListener("click",function() {
+        const withdrawNumber = getInputAmount("withdrawAmount");
+        
+        updateSpanText("currentWithdraw", withdrawNumber);
+        updateSpanText("currentBalance", -1*withdrawNumber);
+
+        document.getElementById("withdrawAmount").value = "";
+    });
+
+    function getInputAmount(id) {
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+        }
+
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
